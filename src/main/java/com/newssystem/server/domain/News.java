@@ -16,6 +16,8 @@ public class News {
     private String data;
     private String title;
 
+    public News(){};
+
     public News( String text, String data, String title) {
         this.text = text;
         this.data = data;
