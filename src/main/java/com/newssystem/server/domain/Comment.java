@@ -16,6 +16,8 @@ public class Comment {
     private String data;
     private String comment;
 
+    public Comment(){}
+
     public Comment(String newsId, String author, String data, String comment) {
         this.newsId = newsId;
         this.author = author;
