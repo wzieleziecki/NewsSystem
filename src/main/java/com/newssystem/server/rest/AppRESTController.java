@@ -1,5 +1,6 @@
 package com.newssystem.server.rest;
 
+import com.newssystem.server.domain.Comment;
 import com.newssystem.server.domain.News;
 import com.newssystem.server.service.CommentService;
 import com.newssystem.server.service.NewsService;
@@ -28,5 +29,17 @@ public class AppRESTController {
     public @ResponseBody
     List<News> findAll(){
         return newsService.getObj();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/saveNews")
+    public @ResponseBody
+    News create(@RequestBody News newsEntity){
+        return newsService.create(newsEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/saveComment")
+    public @ResponseBody
+    Comment create(@RequestBody Comment commentEntity){
+        return commentService.create(commentEntity);
     }
 }
