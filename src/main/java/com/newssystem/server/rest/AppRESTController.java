@@ -27,7 +27,7 @@ public class AppRESTController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getNews")
     public @ResponseBody
-    List<News> findAll(){
+    List<News> findAllnews(){
         return newsService.getObj();
     }
 
@@ -37,9 +37,14 @@ public class AppRESTController {
         return newsService.create(newsEntity);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getComment" )
+    public @ResponseBody
+    List<Comment> findAllComments(){ return commentService.getObj();}
+
     @RequestMapping(method = RequestMethod.POST, value = "/saveComment")
     public @ResponseBody
     Comment create(@RequestBody Comment commentEntity){
         return commentService.create(commentEntity);
     }
+
 }

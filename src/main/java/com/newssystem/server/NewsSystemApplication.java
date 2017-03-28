@@ -30,7 +30,7 @@ public class NewsSystemApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		News newsObj = new News("to jest treść", "10.03.2017", "Urodziny");
+		News newsObj = new News("to jest treść", "10.03.2017", "Urodziny","");
 		newsService.create(newsObj);
 
 		Comment commentObj = new Comment("1234", "Iza", "10.03.2017", "Wszystkiego najlepszego");
