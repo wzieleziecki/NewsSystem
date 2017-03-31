@@ -1,7 +1,9 @@
 package com.newssystem.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.newssystem.server.domain.News;
 import com.newssystem.server.repository.NewsRepository;
+import com.sun.corba.se.impl.ior.OldJIDLObjectKeyTemplate;
 import net.minidev.json.writer.CollectionMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,6 +51,20 @@ public class NewsSystemApplicationTests {
 		Map<String, Object> apiResponse = restTemplate.postForObject("http://localhost:8080/api/news/saveNews", httpEntity, Map.class, Collections.emptyMap());
 
 		assertNotNull(apiResponse);
+
+		//sprawdzam poprawność danych
+		String message = apiResponse.get("message").toString();
+		assertEquals("News created successfully", message);
+
+		String newsId = ((Map<String,Object>)apiResponse.get("news")).get("id").toString();
+		assertNotNull(newsId);
+
+		News news = newsRepository.findOne(newsId);
+		assertEquals("Czesc",news.getText());
+		assertEquals("10.03.2017",news.getData());
+		assertEquals("Urodziny 30",news.getTitle());
+		assertEquals("Wojtek",news.getAuthor());
+
 
 	}
 

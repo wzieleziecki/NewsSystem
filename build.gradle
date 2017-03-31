@@ -29,4 +29,6 @@ dependencies {
 	compile('com.fasterxml.jackson.core:jackson-core 2.8.7')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile ('org.springframework.boot:spring-boot-starter-test')
+	compile ('javax.validation:validation-api:1.1.0.Final')
+	compile ('org.hibernate:hibernate-validator:5.4.1.Final')
 }
