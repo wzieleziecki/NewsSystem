@@ -23,6 +23,8 @@ public class AppRESTController {
 
     private final CommentService commentService;
     private final NewsService newsService;
+    private final Map<String, Object> response = new LinkedHashMap<>();
+
 
     @Autowired
     public AppRESTController(CommentService commentService, NewsService newsService) {
@@ -39,20 +41,7 @@ public class AppRESTController {
     @RequestMapping(method = RequestMethod.POST, value = "/saveNews")
     public @ResponseBody Map<String, Object> create(@Valid @RequestBody News newsEntity, BindingResult bindingResult){
 
-        Map<String, Object> response = new LinkedHashMap<>();
-
-        if (bindingResult.hasErrors()){
-
-            System.out.println("Error");
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            response.put("message", "error");
-
-            for(FieldError error: errors){
-
-                System.out.println(error.getField()+ " - "+ error.getDefaultMessage());
-                response.put(error.getField(), error.getDefaultMessage());
-            }
-        }else {
+        if(checkError(bindingResult)){
             newsService.create(newsEntity);
             response.put("message", "News created successfully");
             response.put("news", newsService.create(newsEntity));
@@ -65,9 +54,35 @@ public class AppRESTController {
     List<Comment> findAllComments(){ return commentService.getObj();}
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveComment")
-    public @ResponseBody
-    Comment create(@RequestBody Comment commentEntity){
-        return commentService.create(commentEntity);
+    public @ResponseBody Map<String, Object> create(@Valid @RequestBody Comment commentEntity, BindingResult bindingResult){
+
+        if(checkError(bindingResult)){
+            commentService.create(commentEntity);
+            response.put("message", "Comment created successfully");
+        }
+
+        return response;
+    }
+
+    public boolean checkError(BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+
+            System.out.println("Error");
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            response.put("message", "error");
+
+            for(FieldError error: errors){
+
+                System.out.println(error.getField()+ " - "+ error.getDefaultMessage());
+                response.put(error.getField(), error.getDefaultMessage());
+            }
+
+            return false;
+        }else {
+
+            return true;
+
+        }
     }
 
 }
